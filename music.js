@@ -4,7 +4,7 @@ const Discord = require('discord.js')
 const Playlist = new Discord.Collection()
 
 module.exports = {
-    name : '노래',
+    name : '!노래',
     description: '유튜브에서 노래를 찾고 재생하는 기능을 실행시키는 명령어',
     async execute(message,args){
         var PlaylistArray = new Array()
@@ -16,7 +16,7 @@ module.exports = {
         const status = message.guild.voice?.connection?.status
         const client_voice_status = message.guild.voice?.connection?.speaking?.bitfield
         const client_voice = message.guild.voice
-        if(args[0] == "재생"){
+        if(args[0] == "!재생"){
             const voiceChannel = message.member.voice.channel
             if(!voiceChannel) return message.reply("오류 : 이 명령어를 사용하기 위해서는 음성채널에 들어가야 합니다.")
             if(status != null){
@@ -50,7 +50,7 @@ module.exports = {
                 await voiceChannel.join()
                 music_play(message)
             }
-        }else if(args[0] == "종료"){
+        }else if(args[0] == "!종료"){
             if(MPL[0] != null || client_voice_status == 1) return message.reply ("오류: 모든 플레이리스트가 끝나지 않았습니다.")
             if(status == null) return message.reply("오류 : 노래가 이미 종료되어있습니다.")
             if(!IsJoinVoiceChannel(message)) return
@@ -58,16 +58,16 @@ module.exports = {
             Playlist.get(MGI).set("musicplaylist",PlaylistArray)
             await message.guild.voice.channel.leave()
             await message.reply("노래가 종료되었습니다.")
-        }else if(args[0] == "플레이리스트"){
-            if(args[1] == "삭제" || args[1] == "확인"){
+        }else if(args[0] == "!플레이리스트"){
+            if(args[1] == "!삭제" || args[1] == "!확인"){
                 switch(args[1]){
-                    case "삭제":
+                    case "!삭제":
                         PlaylistArray = Playlist.get(MGI).get("musicplaylist")
                         if(!args[2] || isNaN(args[2]) || args[2] > PlaylistArray.length || args[2] < 0) return message.reply("오류 : 플레이리스트에서 삭제할 올바른 노래 번호를 입력해주세요.")
                         Playlist.get(MGI).set("musicplaylist",PlaylistArray.splice(--args[2],--args[2]))
                         message.reply(new Discord.MessageEmbed().setTitle("플레이리스트의 항목을 삭제했어요.").setDescription("**!노래 플레이리스트 확인** 명령어로 현재 플레이리스트를 확인할 수 있어요."))
                         break
-                    case "확인":
+                    case "!확인":
                         const Embed = new Discord.MessageEmbed().setTitle("현재 플레이리스트입니다.").setColor("#009dff")
                         if(Playlist.get(MGI).get("musicplaylist") == null || Playlist.get(MGI).get("musicplaylist")[0] == null) return message.reply("표시할 플레이리스트가 없습니다.")
                         PlaylistArray = Playlist.get(MGI).get("musicplaylist")
@@ -80,7 +80,7 @@ module.exports = {
                 }
 
             }else message.reply("오류 : 올바른 인수를 입력해주세요. (인수 : 삭제, 확인)")
-        }else if(args[0] == "건너뛰기"){
+        }else if(args[0] == "!건너뛰기"){
             if(!IsJoinVoiceChannel(message)) return
             return music_play(message)
         }
