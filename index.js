@@ -6,12 +6,21 @@ const { checkPermission, changeCommandStringLength, getEmbedFields, MessageSave 
 const moment = require("moment")
 require("moment-duration-format")
 const momenttz = require("moment-timezone")
-const token = process.argv.length == 2 ? process.env.token : ""; // heroku를 사용하지 않을꺼라면 const token = "디스코드 봇 토큰" 으로 바꿔주세요.
-const welcomeChannelName = "어서오세요" // 입장 시 환영메시지를 전송 할 채널의 이름을 입력하세요.
+const token = process.argv.length == 2 ? process.env.token : ""; 
+const fs =require('fs')
+const welcomeChannelName = "어서오세요" 
 const byeChannelName = "어서오세요" // 퇴장 시 메시지를 전송 할 채널의 이름을 입력하세요.
 const welcomeChannelComment = "어서오세요." // 입장 시 전송할 환영메시지의 내용을 입력하세요.
 const byeChannelComment = "안녕히가세요." // 퇴장 시 전송할 메시지의 내용을 입력하세요.
 const roleName = "일반" // 입장 시 지급 할 역할의 이름을 적어주세요.
+
+client.commands = new Discord.Collection()
+const commandFiles = fs.readdorSync('./commands').filter(file => file.endsWith('.js'))
+
+for(const file of commandFiles){
+  const command = require(`./commands/${file}`)
+  client.commands.set(command.name,command)
+}
 
 client.on("ready", () => {
   console.log("켰다.")
@@ -31,6 +40,16 @@ client.on("messageUpdate", (message) => { // DATABASE
 client.on("message", (message) => {
   MessageSave(message) // DATABASE
   if (message.author.bot) return
+
+  if(!message.content.startsWith(prefix) || message.author.bot) return
+  const args = message.content.slice(prefix.length).trim().split(/ +/)
+  const commandName = args.shift()
+  const command = client.commands.get(commandName)
+  try{
+
+  }catch(error){
+    console.log(error)
+  }
 
   if (message.content == "핑") {
     return message.reply("퐁")
