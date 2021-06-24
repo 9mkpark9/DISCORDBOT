@@ -15,7 +15,7 @@ const roleName = "일반" // 입장 시 지급 할 역할의 이름을 적어주
 
 client.on("ready", () => {
   console.log("켰다.")
-  client.user.setPresence({ activity: { name: "24시 대기중" }, status: "online" })
+  client.user.setPresence({ activity: { name: "24시 대기" }, status: "online" })
 })
 
 //
