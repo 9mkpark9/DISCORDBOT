@@ -32,7 +32,7 @@ client.on("message", (message) => {
   MessageSave(message) // DATABASE
   if (message.author.bot) return
 
-  if (message.content == "핑") {
+  if (message.content == "핑크") {
     return message.reply("퐁")
   }
 
