@@ -35,9 +35,6 @@ client.on("message", (message) => {
   if (message.content == "핑") {
     return message.reply("퐁")
   }
-client.on("message", (message) => {
-  MessageSave(message) // DATABASE
-  if (message.author.bot) return
   
   if (message.content == "핑크") {
     return message.reply("퐁")
