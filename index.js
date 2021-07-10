@@ -31,10 +31,15 @@ client.on("messageUpdate", (message) => { // DATABASE
 client.on("message", (message) => {
   MessageSave(message) // DATABASE
   if (message.author.bot) return
-
-  if (message.content == "핑크") {
+  
+  if (message.content == "핑") {
     return message.reply("퐁")
-   if (message.content == "핑") {
+  }
+client.on("message", (message) => {
+  MessageSave(message) // DATABASE
+  if (message.author.bot) return
+  
+  if (message.content == "핑크") {
     return message.reply("퐁")
   }
 
